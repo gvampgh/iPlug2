@@ -1791,7 +1791,7 @@ void IGraphicsWin::SetTooltip(const char* tooltip)
 
 void IGraphicsWin::ShowTooltip()
 {
-  if (mTooltipIdx > -1)
+  if (!mCursorHidden && mTooltipIdx > -1)
   {
     const char* tooltip = GetControl(mTooltipIdx)->GetTooltip();
     if (tooltip)
