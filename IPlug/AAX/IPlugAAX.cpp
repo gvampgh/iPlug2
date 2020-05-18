@@ -237,8 +237,14 @@ AAX_Result IPlugAAX::UpdateParameterNormalizedValue(AAX_CParamID paramID, double
   if ((paramIdx > kNoParameter) && (paramIdx < NParams())) 
   {
     ENTER_PARAMS_MUTEX
-    GetParam(paramIdx)->SetNormalized(iValue);
-    SendParameterValueFromAPI(paramIdx, iValue, true);
+    IParam* param = GetParam(paramIdx);
+    double oldval = param->GetNormalized();
+    param->SetNormalized(iValue);
+    double newval = param->GetNormalized();
+    if (oldval != newval)
+    {
+      SendParameterValueFromAPI(paramIdx, iValue, true);
+    }
     OnParamChange(paramIdx, kHost);
     LEAVE_PARAMS_MUTEX
   }
